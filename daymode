@@ -1,0 +1,4 @@
+#!/bin/bash
+
+xrandr --output HDMI-0 --brightness 1.0
+xrandr --output VGA-0 --brightness 1.0
