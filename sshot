@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$1" = "-s" ]; then
+    scrot -s -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/d/Pictures/Screenshots'
+else
+    scrot -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/d/Pictures/Screenshots' --delay 1
+fi 
