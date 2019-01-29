@@ -1,0 +1,7 @@
+#!/bin/bash
+
+effect=(-filter Gaussian -resize 20% -define "filter:sigma=1.5" -resize 500.5%)
+image=$(mktemp --suffix=.png)
+import -window root "$image"
+convert "$image" -blur 0x8 "$image"  
+i3lock -i "$image"
