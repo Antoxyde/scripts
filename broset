@@ -1,0 +1,9 @@
+#!/bin/bash
+
+xdg-settings set default-web-browser $1.desktop
+
+if [ $? -eq 0 ]; then
+    notify-send "Successfully set $1 as default browser."
+else
+    notify-send "Failed to set $1 as default browser."
+fi
