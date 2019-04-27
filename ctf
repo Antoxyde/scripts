@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+from libctf.libctf import *
+import argparse
+
+
+if __name__ == '__main__':
+	main = argparse.ArgumentParser(description='Get the flag.')
+	main.set_defaults(func=None)
+	subs = main.add_subparsers(help='action to perform')
+
+	p = subs.add_parser('gcd', help='compute gcd')
+	p.set_defaults(func=gcd)
+	p.add_argument('a', metavar='a', type=int)
+	p.add_argument('b', metavar='b', type=int)
+
+	p = subs.add_parser('lcm', help='compute lcm')
+	p.set_defaults(func=lcm)
+	p.add_argument('a', metavar='a', type=int)
+	p.add_argument('b', metavar='b', type=int)
+
+	p = subs.add_parser('invmod', help='compute x^-1 mod m')
+	p.set_defaults(func=invmod)
+	p.add_argument('x', metavar='a', type=int)
+	p.add_argument('m', metavar='b', type=int)
+
+	p = subs.add_parser('sb-xor', help='Single-byte xor')
+	p.set_defaults(func=sb_xor)
+	p.add_argument('str', metavar='str', type=lambda s:s.encode())
+	p.add_argument('b', metavar='b', type=lambda s:s.encode())
+
+	p = subs.add_parser('fl-xor', help='fixed-length xor')
+	p.set_defaults(func=fl_xor)
+	p.add_argument('str', metavar='str', type=lambda s:s.encode())
+	p.add_argument('key', metavar='key', type=lambda s:s.encode())
+
+	p = subs.add_parser('rk-xor', help='repeating-key xor')
+	p.set_defaults(func=rk_xor)
+	p.add_argument('str', metavar='str', type=lambda s:s.encode())
+	p.add_argument('key', metavar='key', type=lambda s:s.encode())	
+
+	p = subs.add_parser('bf-xor', help='bf single-byte xor')
+	p.set_defaults(func=bf_sb_xor)
+	p.add_argument('s', metavar='s', type=lambda s:s.encode())
+
+	p = subs.add_parser('bf-rot-ascii', help='bf rotation on ascii')
+	p.set_defaults(func=bf_rot_ascii)
+	p.add_argument('s', metavar='s', type=lambda s:s.encode())
+
+	p = subs.add_parser('bf-rot-alpha', help='bf rotation on alphabet')
+	p.set_defaults(func=bf_rot_alpha)
+	p.add_argument('s', metavar='s', type=str)
+
+	args = main.parse_args()
+
+	if not args.func:
+		main.print_help()
+		exit(1)
+
+	try:
+		res = vars(args).pop("func")(
+				*list(vars(args).values())
+			)
+
+		if res:
+			print(res)
+		
+	except Exception as e:
+		print(e)
