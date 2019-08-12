@@ -6,9 +6,8 @@ else
     brightness=$1
 fi
 
-while IFS= read -r line 
+while IFS= read -r screen 
 do
-    screen=$(echo $line |awk '{print $1}')
     xrandr --output $screen --brightness $brightness
-done <<< $(xrandr -q |grep " connected")
+done <<< $(xrandr -q |grep " connected"|awk '{print $1}')
 
