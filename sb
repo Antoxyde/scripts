@@ -11,3 +11,4 @@ do
     screen=$(echo $line |awk '{print $1}')
     xrandr --output $screen --brightness $brightness
 done <<< $(xrandr -q |grep " connected")
+

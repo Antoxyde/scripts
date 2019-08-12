@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+url=$(xclip -o)
+title=$(youtube-dl -e "$url")
+duration=$(youtube-dl --get-duration "$url")
+videopath="/home/antoxyde/videos/vrac/"
+
+notify-send -t 3000 --icon=video-television "Playing $title" "Duration : $duration"; 
+mpv --volume=50 --record-file="$videopath$title.mkv" $url
+
