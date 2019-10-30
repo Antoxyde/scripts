@@ -1,0 +1,77 @@
+#!/usr/bin/env python 
+
+import sys
+import os
+import subprocess
+
+NOTES_PATH = "/home/antoxyde/documents/sync/notes/"
+VIM = "/usr/bin/nvim"
+
+HEADER = '\033[95m'
+BLUE = '\033[94m'
+GREEN = '\033[92m'
+WARNING = '\033[93m'
+FAIL = '\033[91m'
+ENDC = '\033[0m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
+
+def find_notes(keyword):
+    # Get all the notes within a directory containing the keyword, 
+    # and notes with the keyword in their filename.
+
+    result = []
+    for dirpath, dnames, fnames in os.walk(NOTES_PATH):
+        for fname in fnames:
+            if fname.endswith(".md") and (keyword.lower() in fname.lower() or keyword.lower() in dirpath.lower()):
+                result.append(os.path.join(dirpath[len(NOTES_PATH):],fname))
+    return result
+
+def open_note(path):
+    # Open the given note in vim
+    path = NOTES_PATH + path
+
+    print("Opening {}".format(path))
+    
+    # Yup calling system on user's input is'nt safe but it's only for me so f*ck it
+    os.system("{} {}".format(VIM, path))
+
+def ask_which_note(notes):
+
+    # Ask which note the user want to open, and return it's path
+
+    for i, note in enumerate(notes):
+        print("[{}{}{}] - {}".format(BOLD, i,ENDC,  note.replace("/", " -> ").replace(".md", "")))
+    
+    while True:
+
+        try:
+            n = int(input("Which one do you wanna open ?\n>"))
+
+            if n < 0 or n > len(notes):
+                print("{} Invalid input. {}".format(FAIL, ENDC))
+            else:
+                return notes[n]
+
+        except ValueError:
+            print("{} Give me an integer please ;){}".format(FAIL, ENDC))
+        except KeyboardInterrupt:
+            print("{} Cya..{}".format(BLUE, ENDC))
+            sys.exit(1)
+
+if __name__ == '__main__':
+
+    if len(sys.argv) < 2 :
+        print("{}Usage : {} <keyword>{}".format(WARNING, sys.argv[0].split("/")[-1], ENDC))
+        sys.exit(1)
+
+    notes = find_notes(sys.argv[1])
+
+    if len(notes) == 0:
+        print("{}No note found.{}".format(FAIL, ENDC))
+    elif len(notes) == 1:
+        open_note(notes[0])
+    else:
+        open_note(ask_which_note(notes))
+
+

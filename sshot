@@ -1,3 +1,4 @@
 #!/bin/bash
 
-scrot $@ -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/Pictures/Screenshots/'
+# scrot $@ -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/pictures/screenshots/'
+flameshot gui

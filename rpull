@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync --force --delete -avzru antoxyde@antoxyde.fr:sync/ $HOME/Documents/sync/
+rsync  --delete -avzru antoxyde@antoxyde.fr:sync/ $HOME/documents/sync/
