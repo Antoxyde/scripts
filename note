@@ -5,7 +5,7 @@ import os
 import subprocess
 
 NOTES_PATH = "/home/antoxyde/documents/notes/content/"
-EDITOR = "emacsclient -nw"
+EDITOR = "nvim"
 
 HEADER = '\033[95m'
 BLUE = '\033[94m'

@@ -1,0 +1,33 @@
+#!/bin/bash -p 
+
+# Credits to root-me kernel challenges
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+CHALLPATH=.
+
+STTY=$(stty -g)
+stty intr ^-
+
+TEMP=$(mktemp -d)
+chgrp app-systeme-ch4 ${TEMP}
+chmod 770 ${TEMP}
+
+echo ""
+echo "Share: host:${TEMP} -> guest:/mnt/share"
+echo ""
+
+qemu-system-x86_64 \
+    -m 128M \
+    -cpu kvm64 \
+    -smp cores=2 \
+    -kernel $CHALLPATH/bzImage \
+    -initrd $CHALLPATH/initramfs.img \
+    -nographic \
+    -monitor /dev/null \
+    -enable-kvm \
+    -append 'console=ttyS0 loglevel=3 oops=panic panic=1' \
+    -snapshot \
+    -initrd initramfs.img \
+    -fsdev local,id=exp1,path=${TEMP},security_model=mapped -device virtio-9p-pci,fsdev=exp1,mount_tag=rootme
+
+stty "${STTY}"
