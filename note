@@ -4,7 +4,7 @@ import sys
 import os
 import subprocess
 
-NOTES_PATH = "/home/antoxyde/documents/notes/content/"
+NOTES_PATH = "/home/antox/docs/notes/content/"
 EDITOR = "nvim"
 
 HEADER = '\033[95m'
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         print_notes(find_notes(""))
         sys.exit(0)
     elif sys.argv[1] in ['start', '--start', '-s']:
-        os.system("cd ~/documents/notes && pelican -rl")
+        os.system("cd ~/docs/notes && pelican -rl content/")
     elif len(sys.argv) > 2 and sys.argv[1] == '-i':
         notes = find_notes(sys.argv[2], in_file=True)
     else:

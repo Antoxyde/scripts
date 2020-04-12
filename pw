@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	pwlen=15
+else
+	pwlen=$1
+fi
+
+PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9-.!"#¤%&/()=?' | head -c$pwlen)
+
+if which xclip &>/dev/null; then
+    echo $PW | xclip -i
+    echo $PW | xclip -i -selection clipboard
+fi
+
+echo $PW
