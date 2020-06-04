@@ -1,0 +1,7 @@
+#!/bin/bash
+
+read mem max <<< $(free -h | awk '/^Mem:/ {print $3 " " $2}')
+ram_status="$mem"
+echo "$ram_status"
+
+

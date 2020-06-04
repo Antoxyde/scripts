@@ -1,0 +1,4 @@
+#!/bin/bash
+
+filter() { mpc | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/P/g;/\\[playing\\].*/d" | paste -sd ' ';}
+mpc status | filter

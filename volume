@@ -1,0 +1,13 @@
+#!/bin/bash
+
+perc=$(pulsemixer --get-volume | awk '{print $1}')
+mute=$(pulsemixer --get-mute)
+
+case "$mute" in
+    "0")
+        echo "${perc}%";;
+    "1")
+        echo "${perc}% M";;
+
+esac
+

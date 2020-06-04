@@ -1,0 +1,13 @@
+#!/bin/bash
+
+case "$1" in
+    "mute")
+        pulsemixer --toggle-mute;;
+    "up")
+        pulsemixer --change-volume +5;;
+    "down")
+        pulsemixer --change-volume -5;;
+    *);;
+esac
+
+kill -34 $(pidof barbaloop)

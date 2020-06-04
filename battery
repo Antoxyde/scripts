@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CH=$(acpi -b |tr -d ',' |awk '/^Battery 0:/ {print $3}')
+
+case $CH in
+    "Full"|"Not"|"Unknown")
+        perc=$(acpi -b |awk '/^Battery 0:/ {print $5}')
+        battery_status="BATT FULL";;
+    "Discharging")
+        read perc tm <<< $(acpi -b |tr -d ',' |awk '/^Battery 0:/ {print $4 " " $5}')
+        battery_status="DIS $perc"
+
+        val=${perc::-1}
+
+        if [ $val -lt 5 ]; then
+            notify-send -u critical "Low battery : $perc"
+        elif [ $val -lt 12 ]; then
+            notify-send -u normal "Battery is running low : $perc"
+        fi;;
+
+    "Charging")
+        read perc tm <<< $(acpi -b |tr -d ',' |awk '/^Battery 0:/ {print $4 " " $5}')
+        battery_status="CHAR $perc" ;;
+    *);;
+esac
+
+echo "$battery_status";

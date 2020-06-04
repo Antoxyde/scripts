@@ -1,0 +1,20 @@
+#!/bin/bash
+
+dir="$1"
+
+[ ! -d "$dir" ] && echo "Usage: tagdir <dir with mp3 files>" && exit
+
+echo "Enter the album/book title:"; read -r album
+echo "Enter the artist/author:"; read -r artist
+echo "Enter the publication year:"; read -r year
+echo "Enter the genre :"; read -r genre
+
+cd "$dir"
+for f in *.mp3; do
+    title=$(basename "$f" ".mp3")
+    echo "title : $title"
+    fname=$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")
+    mv "$f" "${fname}.mp3"
+    eyeD3 -Q --remove-all -a "$artist" -G "$genre" -A "$album" -t "$title" -Y "$year" "${fname}.mp3"
+done
+cd -
