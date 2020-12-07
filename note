@@ -1,10 +1,10 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
 import sys
 import os
 import subprocess
 
-NOTES_PATH = "/home/antox/docs/notes/content/"
+NOTES_PATH = "/home/antox/notes/"
 EDITOR = "nvim"
 
 HEADER = '\033[95m'
@@ -17,7 +17,7 @@ BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 
 def find_notes(keyword, in_file=False):
-    # Get all the notes within a directory containing the keyword, 
+    # Get all the notes within a directory containing the keyword,
     # and notes with the keyword in their filename.
     # if in_file is True, also try to check if the keyword is within the content of the file (slower)
 
@@ -38,7 +38,7 @@ def open_note(path):
     path = NOTES_PATH + path
 
     print("Opening {}".format(path))
-    
+
     # Yup calling system on user's input is'nt safe but it's only for me so f*ck it
     os.system("{} {}".format(EDITOR, path))
 
@@ -46,12 +46,12 @@ def open_note(path):
 def print_notes(notes):
     for i, note in enumerate(notes):
         print("[{}{}{}] - {}".format(BOLD, i,ENDC,  note.replace("/", " -> ").replace(".md", "")))
- 
+
 def ask_which_note(notes):
 
     # Ask which note the user want to open, and return it's path
     print_notes(notes)
-   
+
     while True:
 
         try:
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2 :
         print("{}Usage : {} <keyword>{}".format(WARNING, sys.argv[0].split("/")[-1], ENDC))
         sys.exit(1)
-    
+
     if sys.argv[1] in ['-l', '--list', 'list']:
         print_notes(find_notes(""))
         sys.exit(0)

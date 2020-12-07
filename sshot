@@ -1,3 +1,8 @@
 #!/bin/bash
 
-scrot $@ -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/pics/screenshots/'
+#scrot $@ -e '/usr/bin/xclip -sel clip -target image/png $f && mv $f ~/pics/screenshots/'
+
+mdate=$(date +%Y-%m-%d-%s)
+maim $@ -u | xclip -selection clipboard -t image/png -i
+xclip -sel clip -o > ~/pics/screenshots/${mdate}.png
+

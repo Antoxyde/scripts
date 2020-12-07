@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z $1 ]; then
-	echo "Usage : ./wlp3s0.sh <netctl profile>"
-else
-	sudo ip link set wlp3s0 up
-	sudo ip link set wlp3s0 down
-	sudo netctl start $1
-fi

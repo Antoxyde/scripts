@@ -8,19 +8,19 @@ case $CH in
         battery_status="BATT FULL";;
     "Discharging")
         read perc tm <<< $(acpi -b |tr -d ',' |awk '/^Battery 0:/ {print $4 " " $5}')
-        battery_status="DIS $perc"
+        battery_status="DIS $perc $tm"
 
         val=${perc::-1}
 
         if [ $val -lt 5 ]; then
-            notify-send -u critical "Low battery : $perc"
+            notify-send -u critical "Low battery : $perc ($tm left)"
         elif [ $val -lt 12 ]; then
-            notify-send -u normal "Battery is running low : $perc"
+            notify-send -u normal "Battery is running low : $perc ($tm left)"
         fi;;
 
     "Charging")
         read perc tm <<< $(acpi -b |tr -d ',' |awk '/^Battery 0:/ {print $4 " " $5}')
-        battery_status="CHAR $perc" ;;
+        battery_status="CHAR $perc $tm" ;;
     *);;
 esac
 

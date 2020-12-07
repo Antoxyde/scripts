@@ -1,0 +1,32 @@
+#!/bin/bash
+
+WLAN=$(ip --brief a show wlp1s0 | awk '{print $2}')
+
+case $WLAN in
+    "DOWN")
+        wlan_status="wlan DOWN";;
+    "UP")
+
+        SSID=$(iw wlp1s0 info |awk '/^\tssid/ {print $2}' | cut -c 1-10)
+        if [ -z $SSID ]; then
+            wlan_status="wlan UP"
+        else
+            wlan_status="wlan $SSID"
+        fi
+        ;;
+    *)
+        wlan_status="anticrash"
+    ;;
+esac
+
+echo "$wlan_status"
+
+#ETH=$(ip --brief a show enp0s25 | awk '{print $2}')
+
+#case $ETH in
+#    "DOWN")
+#        echo "$wlan_status";;
+#    "UP")
+#    echo "$wlan_status,eth UP";;
+#esac
+
