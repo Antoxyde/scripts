@@ -4,19 +4,19 @@ IFACE=wlp1s0
 set -x
 
 if [ -z "$1" ]; then
-	echo "Usage : ./wif.sh <netctl profile>"
+	echo "Usage : ./wif.sh <profile>"
 else
 
-    sudo netctl stop-all
-    sudo netctl start "$1" || (sudo ip link set "$IFACE" down && sudo netctl start "$1")
 
-
+    doas chattr -i /etc/resolv.conf
     case "$1" in
         "wificampus")
-            echo -e "nameserver 130.190.190.2\nnameserver 130.190.190.3" |sudo tee /etc/resolv.conf ;;
+            echo -e "nameserver 130.190.190.2\nnameserver 130.190.190.3" |doas tee /etc/resolv.conf ;;
         *)
-            echo -e "nameserver ::1\nnameserver 127.0.0.1\noptions edns0 single-request-reopen" |sudo tee /etc/resolv.conf ;;
+            echo -e "nameserver ::1\nnameserver 127.0.0.1\noptions edns0 single-request-reopen" |doas tee /etc/resolv.conf ;;
     esac
+    doas chattr +i /etc/resolv.conf
 
+    doas wpa_supplicant -B -i "${IFACE}" -c /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 

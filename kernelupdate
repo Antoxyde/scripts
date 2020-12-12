@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function yes_or_no {
+    while true; do
+        read -p "$* [y/n]: " yn
+        case $yn in
+            [Yy]*) return 0  ;;
+            [Nn]*) echo "Aborted" ; return  1 ;;
+        esac
+    done
+}
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root."
+  exit 1
+fi
+
+eselect kernel list
+yes_or_no "Kernel version good?"  || exit 1
+
+
+if [ ! -d "/boot/grub" ]; then
+    echo "[+] MOUNTING /boot"
+    mount /boot
+fi
+
+cd /usr/src/linux
+
+echo "[+] COMPILING"
+make -j9 || exit 2
+
+echo "[+] INSTALLATING KERNEL"
+make install || exit 3
+
+echo "[+] INSTALLATING MODULES"
+make modules_install || exit 4
+
+echo "[+] CREATING INITRAMFS"
+genkernel --luks --lvm initramfs || exit 5
+
+echo "[+] UPDATING BOOTLOADER"
+grub-mkconfig -o /boot/grub/grub.cfg || exit 6
+
+echo "[+] ALL DONE! DON'T FORGET TO REMOVE OLD KERNEL/SOURCES! HAVE A NICE DAY :-)"
