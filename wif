@@ -17,6 +17,6 @@ else
     esac
     doas chattr +i /etc/resolv.conf
 
-    doas wpa_supplicant -B -i "${IFACE}" -c /etc/wpa_supplicant/wpa_supplicant.conf
+    #doas wpa_supplicant -B -i "${IFACE}" -c /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 

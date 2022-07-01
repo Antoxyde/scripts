@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+backupdir="$HOME/backups/"
+backupfile="${backupdir}/laptop-$(date +%Y-%m-%d-%Hh%M).tar.gz.age"
+#mkdir "$backupdir" || exit 1
+
+tar cvz  \
+    "$HOME/notes/" \
+    "$HOME/docs/" \
+    "$HOME/repos/blog" \
+    "$HOME/pics" | age -p - > "${backupfile}"
+
+rm -f "${backupdir}/x*"
+split -C 1GB  "${backupfile}"

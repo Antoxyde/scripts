@@ -1,0 +1,18 @@
+#!/bin/bash
+
+chattr -i /etc/resolv.conf 
+
+case "${1}" in
+    "cf")
+        dns="1.1.1.1";;
+    "local")
+        dns="127.0.0.1";;
+    "campus")
+        dns="130.190.190.3";;
+    *)
+        "valid keys : cf, local, campus"
+        exit 1;;
+esac
+
+echo "nameserver ${dns}" > "/etc/resolv.conf"
+chattr +i "/etc/resolv.conf"

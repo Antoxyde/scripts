@@ -41,4 +41,8 @@ genkernel --luks --lvm initramfs || exit 5
 echo "[+] UPDATING BOOTLOADER"
 grub-mkconfig -o /boot/grub/grub.cfg || exit 6
 
-echo "[+] ALL DONE! DON'T FORGET TO REMOVE OLD KERNEL/SOURCES! HAVE A NICE DAY :-)"
+echo "[+] ALL DONE! DON'T FORGET TO REMOVE OLD MODULES/KERNEL/SOURCES IN"
+echo "/lib/modules/"
+echo "/boot/"
+echo "/usr/src"
+echo "HAVE A NICE DAY :-)"

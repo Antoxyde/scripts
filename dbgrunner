@@ -1,0 +1,20 @@
+#!/bin/bash
+
+fname=$(basename -- "$1")
+fname="$1"
+base="${fname%%.*}"
+ext="${fname##*.}"
+
+case "${ext}" in
+    "cpp")
+        g++ "${fname}" -o "${base}.out" -O0 -g -Wall -DDEBUG -pedantic -std=c++17 && xclip -o sel | ./"${base}.out" && rm "${base}.out"
+        ;;
+    "c")
+        gcc "${fname}" -o "${base}.out" -DDEBUG && xclip -o sel | ./"${base}.out" && rm "${base}.out"
+        ;;
+    "py")
+        xclip -o sel | python "${fname}"
+        ;;
+esac
+
+

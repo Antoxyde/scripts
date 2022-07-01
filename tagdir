@@ -15,6 +15,6 @@ for f in *.mp3; do
     echo "title : $title"
     fname=$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")
     mv "$f" "${fname}.mp3"
-    eyeD3 -Q --remove-all -a "$artist" -G "$genre" -A "$album" -t "$title" -Y "$year" "${fname}.mp3"
+    eyeD3 -Q --user-text-frame="comment" --user-text-frame="description" --user-text-frame="purl" -a "$artist" -G "$genre" -A "$album" -t "$title" -Y "$year" "${fname}.mp3"
 done
 cd -

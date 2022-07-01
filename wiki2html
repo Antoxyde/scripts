@@ -1,0 +1,24 @@
+#!/bin/bash
+
+outputdir="${HOME}/notes/html/"
+inputdir="${HOME}/notes/"
+#CSSFILENAME="~/.pandoc/css/template-dark.css"
+template="GitHub.html5"
+
+for file in $(find "${inputdir}" -type f -iname '*.md'); do
+
+    fname=$(basename "$file")
+    fpath=${file%$fname}
+    outdir=${outputdir%$fpath*}
+    echo "file $file, outdir : $outdir"
+
+    #FILENAME=$(basename "$INPUT" .$EXTENSION)
+    #pandoc --mathjax="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" --template="$TEMPLATE" -f "$SYNTAX" -t html --css ~/.pandoc/css/template-dark.css --highlight-style breezedark --metadata title="$FILE" > "$OUTPUT.html"
+done
+
+
+#OUTPUT="$OUTDIR"/$FILENAME
+
+MATH="--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+
+#echo "$INPUT" | 

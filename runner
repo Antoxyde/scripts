@@ -1,0 +1,27 @@
+#!/bin/bash
+
+fname=$(basename -- "$1")
+fname="$1"
+base="${fname%%.*}"
+ext="${fname##*.}"
+
+case "${ext}" in
+    "cpp")
+        clang++ "${fname}" -o "${base}.out"  -DLOCAL -O2 -Wall -pedantic -std=c++17 && xclip -o sel | ./"${base}.out" && rm "${base}.out"
+        ;;
+    "c")
+        clang "${fname}" -o "${base}.out" && xclip -o sel | ./"${base}.out" && rm "${base}.out"
+        ;;
+    "py")
+        xclip -o sel | python "${fname}"
+        ;;
+    "md")
+        out=$(mktemp)
+        pandoc -Tpdf "$1" -o "${out}.pdf" && zathura "${out}.pdf"
+        ;;
+    *)
+        echo "Unrecognised file extension : ${ext}"
+        ;;
+esac
+
+

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rsync  --delete -avzzru antoxyde@antoxyde.fr:sync/ $HOME/docs/

@@ -1,7 +1,5 @@
 #!/bin/bash
-echo '{ "version": 1 }'
-echo "["
-echo "[]"
+
 while true; do
 
 	# Battery stuff
@@ -49,14 +47,14 @@ while true; do
 
 	# Wlan stuff
 
-	WLAN=$(ip --brief a show wlp3s0 | awk '{print $2}')
+	WLAN=$(ip --brief a show wlp1s0 | awk '{print $2}')
 
 	case $WLAN in 
 		"DOWN")
 			wlan_status="wl DOWN";;
 		"UP")
 
-			SSID=$(iw wlp3s0 info |awk '/^\tssid/ {print $2}')
+			SSID=$(iw wlp1s0 info |awk '/^\tssid/ {print $2}')
 			if [ -z $SSID ]; then
 				wlan_status="wl UP"
 			else
@@ -158,15 +156,15 @@ while true; do
 	fi
 
 	# Final output
-	echo -n ",["
-	echo -n "{ \"full_text\": \"[$volume_status]\", \"name\" : \"volume\"},"
-	echo -n "{ \"full_text\": \"[$bw_status, $wlan_status, $eth_status]\", \"name\" : \"network\"},"
-	echo -n "{ \"full_text\": \"[$ram_status]\", \"name\": \"memory\", \"color\": \"$ram_color\"},"
-	echo -n "{ \"full_text\": \"[$battery_status]\", \"name\" : \"battery\", \"color\":\"$bat_color\"},"
-	echo -n "{ \"full_text\": \"[$time_status]\", \"name\" : \"time\"}"
-	echo "]"
+	#echo -n ",["
+	#echo -n "{ \"full_text\": \"[$volume_status]\", \"name\" : \"volume\"},"
+	#echo -n "{ \"full_text\": \"[$bw_status, $wlan_status, $eth_status]\", \"name\" : \"network\"},"
+	#echo -n "{ \"full_text\": \"[$ram_status]\", \"name\": \"memory\", \"color\": \"$ram_color\"},"
+	#echo -n "{ \"full_text\": \"[$battery_status]\", \"name\" : \"battery\", \"color\":\"$bat_color\"},"
+	#echo -n "{ \"full_text\": \"[$time_status]\", \"name\" : \"time\"}"
+	#echo "]"
 
-	#echo "[{ \"full_text\": \"\[$volume_status\] \[$bw_status, $wlan_status, $eth_status\] \[$ram_status\] \[$battery_status\] \[$time_status\]\"}],"
+	echo "\"\[$volume_status\] \[$bw_status, $wlan_status, $eth_status\] \[$ram_status\] \[$battery_status\] \[$time_status\]\""
 
 	sleep 1
 done

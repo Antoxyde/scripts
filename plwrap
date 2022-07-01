@@ -10,4 +10,4 @@ case "$1" in
     *);;
 esac
 
-kill -34 $(pidof barbaloop)
+#kill -34 $(pidof barbaloop)
